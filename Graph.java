@@ -48,7 +48,7 @@ public class Graph {
             Edge aux = new Edge(n1,n2);
             this.updateNode(n2);
             this.edges.put(aux.getId(), aux);
-            if( this.directed ){
+            if( !this.directed ){
                 Edge aux2 = new Edge(n2,n1);
                 this.updateNode(n1);
                 this.edges.put(aux2.getId(), aux2);
@@ -103,7 +103,6 @@ public class Graph {
         // Container for the tree generated 
         Graph T = new Graph(this.directed, this.self);
         List<String> li = new  ArrayList<>();
-        //List<String> lj = new ArrayList<>();
         HashMap<String, Boolean> visited = new HashMap<String, Boolean>();
         
         this.nodes.forEach((key,value) -> {
@@ -136,25 +135,106 @@ public class Graph {
         return T;
     }
 
-    public static void main(String[] args){
-        /*Graph g = new Graph(false, false);
-        g.addNode("n1");
-        g.addNode("n2");
-        g.addNode("n3");
-        g.addNode("n4");
-        g.addEdge("n1", "n2");
-        g.addEdge("n3", "n1");
-        g.addEdge("n1", "n4");
-        g.addEdge("n4", "n3");
+    public Graph DFS_I(String s) {
+        // Container for the tree generated 
+        Graph T = new Graph(this.directed, this.self);
+        List<String> li = new  ArrayList<>();
+        HashMap<String, Boolean> visited = new HashMap<String, Boolean>();
+
+        this.nodes.forEach((key,value) -> {
+            visited.put(key, false);
+            T.addNode(key);
+        });
         
-        Graph T = g.BFS("n1");
-        T.printEdges();
+        String aux_label = s;
+        li.add(aux_label);
+        visited.replace(aux_label, true);
+        
+        while(!li.isEmpty()){
+            
+            aux_label = li.get(0);
+            li.remove(0);
+
+            List<String> lj = this.getAdj(aux_label);
+            //System.out.println(lj.size());
+
+            for (String x: lj) {
+                if(!visited.get(x)){
+                    visited.replace(x,true);
+                    li.add(x);
+                    T.addEdge(aux_label, x);
+                } 
+            }
+        }
+
+        return T;
+    }
+
+    public void DFS_aux(String s, HashMap<String, Boolean> visited, Graph T){
+        String aux_label = s;
+        visited.replace(aux_label, true);
+
+        List<String> lj = this.getAdj(aux_label);
+            //System.out.println(lj.size());
+
+            for (String x: lj) {
+                if(!visited.get(x)){
+                    T.addEdge(aux_label, x);
+                    DFS_aux(x, visited, T);
+                } 
+            }
+        
+    }
+
+    public Graph DFS_R(String s) {
+        // Container for the tree generated 
+        Graph T = new Graph(this.directed, this.self);
+        HashMap<String, Boolean> visited = new HashMap<String, Boolean>();
+
+        this.nodes.forEach((key,value) -> {
+            visited.put(key, false);
+            T.addNode(key);
+        });
+
+        DFS_aux(s, visited, T);
+
+        return T;
+    }
+
+    public static void main(String[] args){
+        Graph g = new Graph(false, false);
+        g.addNode("n1");
+        g.addNode("n4");
+        g.addNode("n3");
+        g.addNode("n2");
+        g.addNode("n6");
+        g.addNode("n5");
+        g.addEdge("n1", "n2");
+        g.addEdge("n1", "n3");
+        g.addEdge("n1", "n4");
+        g.addEdge("n3", "n5");
+        g.addEdge("n3", "n6");
+        g.addEdge("n4", "n6");
+        
+        Graph T_b = g.BFS("n1");
+        
+        Graph T_d = g.DFS_I("n1");
+        
+        Graph T_r = g.DFS_R("n1");
+        System.out.println("BFS\n");
+        T_b.printEdges();
+        System.out.println("DFS_I\n");
+        T_d.printEdges();
+        System.out.println("DFS_R\n");;
+        T_r.printEdges();
 
         try {
-            T.graphToFile("graphTree.csv");
+            T_b.graphToFile("graphTreeb.csv");
+            T_d.graphToFile("graphTreed.csv");
+            T_r.graphToFile("graphTreer.csv");
         }catch(IOException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
-        }*/
+        }
     }
 }

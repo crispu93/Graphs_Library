@@ -54,12 +54,47 @@ public class ErdosGraph {
         Tree.printEdges();
         return Tree;
     }
+
+    public Graph DFS_I(String s){
+        Graph Tree = this.G.DFS_I(s);
+        Tree.printEdges();
+        return Tree;
+    }
+
+    public Graph DFS_R(String s){
+        Graph Tree = this.G.DFS_R(s);
+        Tree.printEdges();
+        return Tree;
+    }
     public static void main(String[] args) {
-        ErdosGraph g = new ErdosGraph(30, 100 , false, false);
-        Graph T = g.BFS("N1");
-        T.printEdges();
+        ErdosGraph g1 = new ErdosGraph(30, 60 , true, false);
+        ErdosGraph g2 = new ErdosGraph(100, 200 , true, false);
+        ErdosGraph g3 = new ErdosGraph(500, 3000, true, false);
+
+        Graph T1_1 = g1.BFS("N1");
+        Graph T1_2 = g1.DFS_I("N1");
+        Graph T1_3 = g1.DFS_R("N1");
+
+        Graph T2_1 = g2.BFS("N1");
+        Graph T2_2 = g2.DFS_I("N1");
+        Graph T2_3 = g2.DFS_R("N1");
+
+        Graph T3_1 = g3.BFS("N1");
+        Graph T3_2 = g3.DFS_I("N1");
+        Graph T3_3 = g3.DFS_R("N1");
         try {
-            T.graphToFile("ErdosTree.csv");
+            g1.graphToFile("csv/Erdos1.csv");
+            g2.graphToFile("csv/Erdos2.csv");
+            g3.graphToFile("csv/Erdos3.csv");
+            T1_1.graphToFile("csv/ErdosTree1-1.csv");
+            T1_2.graphToFile("csv/ErdosTree1-2.csv");
+            T1_3.graphToFile("csv/ErdosTree1-3.csv");
+            T2_1.graphToFile("csv/ErdosTree2-1.csv");
+            T2_2.graphToFile("csv/ErdosTree2-2.csv");
+            T2_3.graphToFile("csv/ErdosTree2-3.csv");
+            T3_1.graphToFile("csv/ErdosTree3-1.csv");
+            T3_2.graphToFile("csv/ErdosTree3-2.csv");
+            T3_3.graphToFile("csv/ErdosTree3-3.csv");
         }catch(IOException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();

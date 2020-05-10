@@ -62,14 +62,51 @@ public class BarabasiGraph {
     }
 
     public Graph BFS(String s){
-        return this.G.BFS(s);
+        Graph Tree = this.G.BFS(s);
+        Tree.printEdges();
+        return Tree;
     }
-    
-    public static void main(String[] args) {
-        BarabasiGraph g = new BarabasiGraph(500, 5, false, false);
 
+    public Graph DFS_I(String s){
+        Graph Tree = this.G.DFS_I(s);
+        Tree.printEdges();
+        return Tree;
+    }
+
+    public Graph DFS_R(String s){
+        Graph Tree = this.G.DFS_R(s);
+        Tree.printEdges();
+        return Tree;
+    }
+    public static void main(String[] args) {
+        BarabasiGraph g1 = new BarabasiGraph(30, 5, false, false);
+        BarabasiGraph g2 = new BarabasiGraph(100, 5, false, false);
+        BarabasiGraph g3 = new BarabasiGraph(500, 5, false, false);
+
+        Graph T1_1 = g1.BFS("N1");
+        Graph T1_2 = g1.DFS_I("N1");
+        Graph T1_3 = g1.DFS_R("N1");
+
+        Graph T2_1 = g2.BFS("N1");
+        Graph T2_2 = g2.DFS_I("N1");
+        Graph T2_3 = g2.DFS_R("N1");
+
+        Graph T3_1 = g3.BFS("N1");
+        Graph T3_2 = g3.DFS_I("N1");
+        Graph T3_3 = g3.DFS_R("N1");
         try {
-            g.graphToFile("Barabasi500(5).csv");
+            g1.graphToFile("csv/Barabasi1.csv");
+            g2.graphToFile("csv/Barabasi2.csv");
+            g3.graphToFile("csv/Barabasi3.csv");
+            T1_1.graphToFile("csv/BarabasiTree1-1.csv");
+            T1_2.graphToFile("csv/BarabasiTree1-2.csv");
+            T1_3.graphToFile("csv/BarabasiTree1-3.csv");
+            T2_1.graphToFile("csv/BarabasiTree2-1.csv");
+            T2_2.graphToFile("csv/BarabasiTree2-2.csv");
+            T2_3.graphToFile("csv/BarabasiTree2-3.csv");
+            T3_1.graphToFile("csv/BarabasiTree3-1.csv");
+            T3_2.graphToFile("csv/BarabasiTree3-2.csv");
+            T3_3.graphToFile("csv/BarabasiTree3-3.csv");
         }catch(IOException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
