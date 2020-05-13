@@ -2,13 +2,18 @@ public class Edge {
     String id;
     String first;
     String second;
+    double weight;
 
     public Edge(String first, String second) {
         this.first = first;
         this.second = second;
         this.id = this.first + '-' + this.second;
+        this.weight = 1;
     }
 
+    public void setWeight(double w) {
+        this.weight = w;
+    }
     public String getId() {
         return this.id;
     }

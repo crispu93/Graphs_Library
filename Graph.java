@@ -201,6 +201,15 @@ public class Graph {
         return T;
     }
 
+    public void RandomEdgeValues(double min, double max) {
+        this.edges.forEach((key,value) ->  {
+            double w = (max-min)*Math.random()+min;
+            value.setWeight(w);
+        });
+    }
+
+    //public Graph Dijstra()
+
     public static void main(String[] args){
         Graph g = new Graph(false, false);
         g.addNode("n1");
@@ -215,23 +224,9 @@ public class Graph {
         g.addEdge("n3", "n5");
         g.addEdge("n3", "n6");
         g.addEdge("n4", "n6");
-        
-        Graph T_b = g.BFS("n1");
-        
-        Graph T_d = g.DFS_I("n1");
-        
-        Graph T_r = g.DFS_R("n1");
-        System.out.println("BFS\n");
-        T_b.printEdges();
-        System.out.println("DFS_I\n");
-        T_d.printEdges();
-        System.out.println("DFS_R\n");;
-        T_r.printEdges();
-
+        g.RandomEdgeValues(0, 2);
         try {
-            T_b.graphToFile("graphTreeb.csv");
-            T_d.graphToFile("graphTreed.csv");
-            T_r.graphToFile("graphTreer.csv");
+            g.graphToFile("test/mygraph.csv");
         }catch(IOException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
