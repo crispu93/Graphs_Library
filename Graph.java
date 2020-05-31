@@ -4,6 +4,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.PriorityQueue;
+
+//import org.w3c.dom.Node;
 
 public class Graph {
     HashMap<String, Node> nodes;
@@ -30,8 +33,10 @@ public class Graph {
         return this.edges.containsKey(n1 + "-" + n2);
     }
     public void addNode(String label){
-        Node aux = new Node(label);
-        this.nodes.put(label, aux);
+        //if (!this.nodes.containsKey(label)) {
+            Node aux = new Node(label);
+            this.nodes.put(label, aux);
+        //}
     }
 
     public int getDegree(String label){
@@ -204,14 +209,58 @@ public class Graph {
     public void RandomEdgeValues(double min, double max) {
         this.edges.forEach((key,value) ->  {
             double w = (max-min)*Math.random()+min;
+            w = Math.floor(w*100d)/100d;
             value.setWeight(w);
         });
     }
 
-    //public Graph Dijstra()
+    public Graph Dijkstra(String s) {
+        // Container for the tree generated 
+        Graph T = new Graph(this.directed, this.self);
+        HashMap<String, Double> dist = new HashMap<String, Double>();
+        HashMap<String, Boolean> visited = new HashMap<String, Boolean>();
+
+        this.nodes.forEach((key,value) -> {
+            dist.put(key, Double.MAX_VALUE);
+            visited.put(key, false);
+        });
+
+        dist.replace(s, 0.0);
+        PriorityQueue<Node> q = new PriorityQueue<Node>();
+        
+        Node aux = new Node(s);
+        aux.setDist(0);
+        q.add(aux);
+        
+        while (!q.isEmpty()){
+            Node aux2 = q.poll();
+            String aux_label = aux2.getLabel();
+            if (visited.get(aux_label) == true)
+                continue;
+            visited.replace(aux_label, true);
+            T.addNode(aux_label + "(" + dist.get(aux_label) + ")");
+
+            List<String> lj = this.getAdj(aux_label);
+            //System.out.println(lj.size());
+
+            for (String x: lj) {
+                double weight = this.edges.get(aux_label + "-" + x).getWeight();
+                double aux_dist = dist.get(aux_label);
+                if (aux_dist + weight < dist.get(x) ) {
+                    dist.replace(x, aux_dist+ weight);
+                    Node aux_adj = new Node(x);
+                    aux_adj.setDist(dist.get(x));
+                    q.add(aux_adj);
+                    T.addNode(x + "(" + dist.get(x) + ")");
+                    T.addEdge(aux_label + "(" + dist.get(aux_label) + ")", x + "(" + dist.get(x) + ")");
+                }
+            }
+        }
+        return T;
+    }
 
     public static void main(String[] args){
-        Graph g = new Graph(false, false);
+        Graph g = new Graph(true, false);
         g.addNode("n1");
         g.addNode("n4");
         g.addNode("n3");
@@ -224,9 +273,13 @@ public class Graph {
         g.addEdge("n3", "n5");
         g.addEdge("n3", "n6");
         g.addEdge("n4", "n6");
-        g.RandomEdgeValues(0, 2);
+        g.RandomEdgeValues(0, 10);
+        Graph T = g.Dijkstra("n1");
+        g.printEdges();
+        T.printEdges();
         try {
             g.graphToFile("test/mygraph.csv");
+            T.graphToFile("test/dijkstra.csv");
         }catch(IOException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();

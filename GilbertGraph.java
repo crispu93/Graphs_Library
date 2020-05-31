@@ -65,35 +65,36 @@ public class GilbertGraph {
         Tree.printEdges();
         return Tree;
     }
+
+    public Graph Dijkstra(String s){
+        Graph Tree = this.G.Dijkstra(s);
+        Tree.printEdges();
+        return Tree;
+    }
+
+    public void RandomEdgeValues(double min, double max) {
+        this.G.RandomEdgeValues(min, max);
+    }
     public static void  main(String[] args){
         GilbertGraph g1 = new GilbertGraph(30, 0.1, true, false);
+        g1.RandomEdgeValues(5, 20);
         GilbertGraph g2 = new GilbertGraph(100, 0.1, true, false);
+        g2.RandomEdgeValues(5, 20);
         GilbertGraph g3 = new GilbertGraph(500, 0.1, true, false);
+        g3.RandomEdgeValues(5, 20);
     
-        Graph T1_1 = g1.BFS("N1");
-        Graph T1_2 = g1.DFS_I("N1");
-        Graph T1_3 = g1.DFS_R("N1");
+        Graph T1_1 = g1.Dijkstra("N1");
 
-        Graph T2_1 = g2.BFS("N1");
-        Graph T2_2 = g2.DFS_I("N1");
-        Graph T2_3 = g2.DFS_R("N1");
+        Graph T2_1 = g2.Dijkstra("N1");
 
-        Graph T3_1 = g3.BFS("N1");
-        Graph T3_2 = g3.DFS_I("N1");
-        Graph T3_3 = g3.DFS_R("N1");
+        Graph T3_1 = g3.Dijkstra("N1");
         try {
             g1.graphToFile("csv/Gilbert1.csv");
             g2.graphToFile("csv/Gilbert2.csv");
             g3.graphToFile("csv/Gilbert3.csv");
             T1_1.graphToFile("csv/GilbertTree1-1.csv");
-            T1_2.graphToFile("csv/GilbertTree1-2.csv");
-            T1_3.graphToFile("csv/GilbertTree1-3.csv");
             T2_1.graphToFile("csv/GilbertTree2-1.csv");
-            T2_2.graphToFile("csv/GilbertTree2-2.csv");
-            T2_3.graphToFile("csv/GilbertTree2-3.csv");
             T3_1.graphToFile("csv/GilbertTree3-1.csv");
-            T3_2.graphToFile("csv/GilbertTree3-2.csv");
-            T3_3.graphToFile("csv/GilbertTree3-3.csv");
         }catch(IOException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();

@@ -25,6 +25,11 @@ public class Edge {
     public String getSecond() {
         return this.second;
     }
+    
+    public double getWeight() {
+    	return this.weight;
+    }
+    
     public static void main(String[] args) {
         /*Node n_1 = new Node("N1");
         Node n_2 = new Node("N2");
