@@ -75,26 +75,53 @@ public class GilbertGraph {
     public void RandomEdgeValues(double min, double max) {
         this.G.RandomEdgeValues(min, max);
     }
+
+    public Graph Kruskal_D() {
+        return this.G.Kruskal_D();
+    }
+
+    public Graph Kruskal_I() {
+        return this.G.Kruskal_I();
+    }
+
+    public Graph Prim() {
+        return this.G.Prim();
+    }
     public static void  main(String[] args){
-        GilbertGraph g1 = new GilbertGraph(30, 0.1, true, false);
+        GilbertGraph g1 = new GilbertGraph(30, 0.1, false, false);
         g1.RandomEdgeValues(5, 20);
-        GilbertGraph g2 = new GilbertGraph(100, 0.1, true, false);
+        GilbertGraph g2 = new GilbertGraph(100, 0.08, false, false);
         g2.RandomEdgeValues(5, 20);
-        GilbertGraph g3 = new GilbertGraph(500, 0.1, true, false);
+        GilbertGraph g3 = new GilbertGraph(300, 0.01, false, false);
         g3.RandomEdgeValues(5, 20);
+        g1.G.removeDisconnected();
+        g2.G.removeDisconnected();
+        g3.G.removeDisconnected();
     
-        Graph T1_1 = g1.Dijkstra("N1");
+        Graph T1_1 = g1.Kruskal_D();
+        Graph T1_2 = g2.Kruskal_D();
+        Graph T1_3 = g3.Kruskal_D();
 
-        Graph T2_1 = g2.Dijkstra("N1");
+        Graph T2_1 = g1.Kruskal_I();
+        Graph T2_2 = g2.Kruskal_I();
+        Graph T2_3 = g3.Kruskal_I();
 
-        Graph T3_1 = g3.Dijkstra("N1");
+        Graph T3_1 = g1.Prim();
+        Graph T3_2 = g2.Prim();
+        Graph T3_3 = g3.Prim();
         try {
             g1.graphToFile("csv/Gilbert1.csv");
             g2.graphToFile("csv/Gilbert2.csv");
             g3.graphToFile("csv/Gilbert3.csv");
-            T1_1.graphToFile("csv/GilbertTree1-1.csv");
-            T2_1.graphToFile("csv/GilbertTree2-1.csv");
-            T3_1.graphToFile("csv/GilbertTree3-1.csv");
+            T1_1.graphToFile("csv/GilbertKruskal_D-1.csv");
+            T1_2.graphToFile("csv/GilbertKruskal_D-2.csv");
+            T1_3.graphToFile("csv/GilbertKruskal_D-3.csv");
+            T2_1.graphToFile("csv/GilbertKruskal_I-1.csv");
+            T2_2.graphToFile("csv/GilbertKruskal_I-2.csv");
+            T2_3.graphToFile("csv/GilbertKruskal_I-3.csv");
+            T3_1.graphToFile("csv/GilbertPrim-1.csv");
+            T3_2.graphToFile("csv/GilbertPrim-2.csv");
+            T3_3.graphToFile("csv/GilbertPrim-3.csv");
         }catch(IOException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();

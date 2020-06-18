@@ -31,12 +31,13 @@ public class Node implements Comparable<Node> {
     @Override
     public int compareTo(Node other) {
         //return this.getDist().compareTo(other.getDist());
-         if ( this.getDist() < other.getDist())
+        return Double.valueOf(this.getDist()).compareTo(Double.valueOf(other.getDist()));
+         /*if ( this.getDist() < other.getDist())
     		return -1;
  	else if(this.getDist() > other.getDist())
     		return 1;
  	else
-    		return 0;
+    		return 0;*/
     }
 
     public static void main() {
